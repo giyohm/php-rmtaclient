@@ -1,0 +1,15 @@
+{
+    "name": "rmta-client",
+    "version": "2.0",
+
+    "autoload": {
+        "psr-0" : {
+            "RMTA" : "src"
+        }
+    },
+
+    "repositories": [ {
+	"type": "vcs";
+	"url" : "https://github.com/rentabiliweb/php-rmtaclient"
+    } ],
+}
