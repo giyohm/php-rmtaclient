@@ -8,7 +8,6 @@
 
 namespace RMTA;
 
-
 /**
  * URL of production API servers, default value for RMTAClient connector
  */
@@ -55,20 +54,6 @@ class Client
 		return $json;
 	}
 
-	/**
-	 *
-	 * RMTAClient constructor
-	 *
-	 * A RMTAClient instance abstracts a disconnected authenticated session to the RMTA infrastructure.
-	 * Errors caused by network disruption do not require reinstantiating an object.
-	 * The object may be cached and reused.
-	 *
-	 * @param string $username
-	 * @param string $password
-	 * @param string $url optional url for API servers, defaults to production
-	 *
-	 * @return void
-	 */
 	function __construct($username, $password, $url = RMTA_API_URL) {
 		$this->token = null;
 		$this->url = $url;
@@ -81,30 +66,16 @@ class Client
 		return new API($this);
 	}
 
-
-	/**
-	 * @param string $domain
-	 *
-	 * @return RMTADomain an RMTADomain connector to $domain
-	 */
 	function domain($domain)
 	{
 		return $this->api()->domain($domain);
 	}
 
-	/**
-	 * @param integer $id
-	 *
-	 * @return RMTASpooler an RMTASpooler connector to spooler id $id
-	 */
 	function spooler($spooler_id)
 	{
 		return $this->api()->spooler($spooler_id);
 	}
 
-	/**
-	 * @return array an array of RMTADomain connectors to each domain registered for the authenticated client
-	 */
 	function domain_list()
 	{
 		return $this->api()->domain_list();
@@ -182,25 +153,6 @@ class Client
 			'html' => $html
 		);
 		return $this->rest_call('cleanup/html2text', $params, "POST");
-	}
-
-	/**
-	 * @ignore
-	 */
-	public function scoreSpam($campaign)
-	{
-		if (! $campaign instanceof RMTACampaign)
-			throw new ClientException("expect a RMTACampaign instance");
-
-	        $params = array(
-			'domain'      => $campaign->domain,
-			'subject'     => $campaign->subject,
-			'html'        => $campaign->message_html,
-			'text'        => $campaign->message_txt,
-			'headers'     => $campaign->headers,
-			'expand'      => $campaign->expand
-		);
-		return $this->rest_call('scoring/spam', $params, "POST");
 	}
 
 	/* standalone calls */

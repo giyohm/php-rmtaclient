@@ -22,7 +22,7 @@ class Spooler
 		$this->state      = null;
 		$this->summary    = null;
 		$this->params     = array();
-		$this->content    = new RMTAContent();
+		$this->content    = new Content();
 		$this->_setup($data);
 	}
 
@@ -84,17 +84,17 @@ class Spooler
 
 	public function queue($options = null)
 	{
-		return new RMTAQueueIterator($this, $options);
+		return new QueueIterator($this, $options);
 	}
 
 	public function batch()
 	{
-		return new RMTASpoolBatch($this);
+		return new SpoolBatch($this);
 	}
 
 	public function mail($recipient)
 	{
-		return new RMTAMail($this, $recipient);
+		return new Mail($this, $recipient);
 	}
 
 	/**
@@ -142,7 +142,7 @@ class Spooler
 	public function statistics($destination = null)
 	{
 		$params = array("destination" => $destination);
-		return new RMTAStatistics($this->client->rest_call('spooler/'.$this->id.'/statistics', $params, "POST"));
+		return new Statistics($this->client->rest_call('spooler/'.$this->id.'/statistics', $params, "POST"));
 	}
 }
 

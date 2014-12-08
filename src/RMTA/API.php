@@ -15,30 +15,17 @@ class API
 		$this->client = $client;
 	}
 
-	/**
-	 * @param string $domain
-	 *
-	 * @return RMTADomain an RMTADomain connector to $domain
-	 */
 	function domain($domain)
 	{
-		return new RMTADomain($this->client, $domain);
+		return new Domain($this->client, $domain);
 	}
 
-	/**
-	 * @param integer $id
-	 *
-	 * @return RMTASpooler an RMTASpooler connector to spooler id $id
-	 */
 	function spooler($spooler_id)
 	{
 		$s = $this->client->rest_call('spooler/'.$spooler_id.'/load', null, "POST");
-		return new RMTASpooler($this->client, $s['id'], $s);
+		return new Spooler($this->client, $s['id'], $s);
 	}
 
-	/**
-	 * @return array an array of RMTADomain connectors to each domain registered for the authenticated client
-	 */
 	function domain_list()
 	{
 		$ret = array();
@@ -69,7 +56,7 @@ class API
 
 		$res = array();
 		foreach ($this->client->rest_call('spooler-list', $params, "POST") as $value)
-			array_push($res, new RMTASpooler($this->client, $value['id'], $value));
+			array_push($res, new Spooler($this->client, $value['id'], $value));
 		return $res;		
 	}
 }

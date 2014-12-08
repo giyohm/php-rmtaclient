@@ -10,9 +10,6 @@ namespace RMTA;
 
 class Domain
 {
-	/**
-	 * @ignore
-	 */
 	function __construct($client, $name)
 	{
 		$this->client = $client;
@@ -24,9 +21,6 @@ class Domain
 		return $this->domain;
 	}
 
-	/**
-	 * @ignore
-	 */
 	public function spooler_list($options=null)
 	{
 		$domain	= $this->domain;
@@ -51,11 +45,6 @@ class Domain
 		return $res;
 	}
 
-	/**
-	 * @param string $type the type of the spooler about to be created: service, transactional or campaign
-	 *
-	 * @return Spooler a Spooler connector to a newly created spooler of type $type
-	 */
 	public function spooler_create($type = "campaign")
 	{
 		$params = array(
@@ -69,41 +58,25 @@ class Domain
 		return new Spooler($this->client, $data['id'], $data);
 	}
 
-	/**
-	 * @return RMTANotifications a RMTANotifications connector for the current domain
-	 */
 	public function notifications()
 	{
-		return new RMTANotifications($this->client, $this->domain);
+		return new Notifications($this->client, $this->domain);
 	}
 
-	/**
-	 * @return RMTATemplates a RMTATemplates connector for the current domain
-	 */
 	public function templates()
 	{
-		return new RMTATemplates($this->client, $this->domain);
+		return new Templates($this->client, $this->domain);
 	}
 
-
-	/**
-	 * @param string $destination optional destination domain or provider
-	 *
-	 * @return mixed a hash table of statistics, possibly restricted to a single destination.
-	 */
 	public function statistics($destination = null)
 	{
 		$params = array(
 			"domain"      => $this->domain,
 		        "destination" => $destination
 		);
-		return new RMTAStatistics($this->client->rest_call('domain/statistics', $params, "POST"));
+		return new Statistics($this->client->rest_call('domain/statistics', $params, "POST"));
 	}
 
-
-	/**
-	 * @ignore
-	 */
 	public function timeline($timeframe = "weekly")
 	{
 		if ($timeframe != "daily" &&
