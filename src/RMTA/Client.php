@@ -15,9 +15,6 @@ define('RMTA_API_URL', 'https://api2.rmta-services.com/api');
 
 class Client
 {
-	/**
-	 * @ignore
-	 */
 	function rest_call($remote_method, $params = null, $verb = 'POST')
 	{
 		$cparams = array( 'http' => array( 'method' => $verb, 'ignore_errors' => false, 'header' => "Content-type: application/json\r\n" ) );
@@ -86,9 +83,6 @@ class Client
 		return $this->api()->spooler_list($options);
 	}
 
-	/**
-	 * @ignore
-	 */
 	public function timeline($timeframe = "monthly")
 	{
 		if ($timeframe != "monthly")
@@ -100,9 +94,6 @@ class Client
 
 	/* TEMPORARY AND / OR LEGACY */
 
-	/**
-	 * @ignore
-	 */
 	public function scoreText($text)
 	{
 	        $params = array(
@@ -111,9 +102,6 @@ class Client
 		return $this->rest_call('scoring/text', $params, "POST");
 	}
 
-	/**
-	 * @ignore
-	 */
 	public function cleanupText($text)
 	{
 	        $params = array(
@@ -122,9 +110,6 @@ class Client
 		return $this->rest_call('cleanup/text', $params, "POST");
 	}
 
-	/**
-	 * @ignore
-	 */
 	public function scoreHtml($html)
 	{
 	        $params = array(
@@ -133,9 +118,6 @@ class Client
 		return $this->rest_call('scoring/html', $params, "POST");
 	}
 
-	/**
-	 * @ignore
-	 */
 	public function cleanupHtml($html)
 	{
 	        $params = array(
@@ -144,9 +126,6 @@ class Client
 		return $this->rest_call('cleanup/html', $params, "POST");
 	}
 
-	/**
-	 * @ignore
-	 */
 	public function Html2Text($html)
 	{
 	        $params = array(
@@ -156,9 +135,6 @@ class Client
 	}
 
 	/* standalone calls */
-	/**
-	 * @ignore
-	 */
 	public function html_to_text($html)
 	{
 		$params = array(
@@ -166,8 +142,6 @@ class Client
 		);
 		return $this->rest_call('standalone/html-to-text', $params, "POST");
 	}
-
-
-	/**/
 }
+
 ?>

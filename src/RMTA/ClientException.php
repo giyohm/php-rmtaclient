@@ -8,8 +8,6 @@
 
 namespace RMTA;
 
-/**
- * @ignore
- */
 class ClientException extends RMTAException {}
+
 ?>

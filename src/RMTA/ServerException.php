@@ -8,8 +8,6 @@
 
 namespace RMTA;
 
-/**
- * @ignore
- */
 class ServerException extends RMTAException {}
+
 ?>

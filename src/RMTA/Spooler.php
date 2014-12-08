@@ -10,9 +10,6 @@ namespace RMTA;
 
 class Spooler
 {
-	/**
-	 * @ignore
-	 */
 	function __construct($client, $spooler_id, $data)
 	{
 		$this->client = $client;
@@ -97,9 +94,6 @@ class Spooler
 		return new Mail($this, $recipient);
 	}
 
-	/**
-	 * @return Spooler a Spooler connector to the updated spooler
-	 */
 	public function update()
 	{
 		$params = array(
@@ -111,24 +105,11 @@ class Spooler
 		return $this->client->rest_call('spooler/'.$this->id.'/update', $params, "POST");
 	}
 
-	/**
-	 *
-	 * marks the current spooler ready for shoot
-	 *
-	 * @return void
-	 */
 	public function shoot()
 	{
 		return $this->client->rest_call('spooler/'.$this->id.'/shoot', null, "POST");
 	}
 
-
-	/**
-	 *
-	 * cancels the spooler identified by the current spooler connector
-	 *
-	 * @return void
-	 */
 	public function cancel()
 	{
 		return $this->client->rest_call('spooler/'.$this->id.'/cancel', null, "POST");

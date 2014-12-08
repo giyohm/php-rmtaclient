@@ -8,9 +8,6 @@
 
 namespace RMTA;
 
-/**
- * @ignore
- */
 class RemoteCallError extends ServerException
 {
 	protected $_details;
@@ -24,4 +21,5 @@ class RemoteCallError extends ServerException
 		return $this->_details;
 	}
 }
+
 ?>
