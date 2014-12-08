@@ -9,7 +9,7 @@
     "version": "2.0",
 
     "autoload": {
-        "psr-0" : {
+        "psr-4" : {
             "RMTA" : "src/RMTA"
         }
     }
