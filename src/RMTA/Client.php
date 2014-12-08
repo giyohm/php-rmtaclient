@@ -6,6 +6,9 @@
  *
  */
 
+namespace \RMTA;
+
+
 /**
  * URL of production API servers, default value for RMTAClient connector
  */
