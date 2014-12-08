@@ -1,6 +1,9 @@
 {
     "name": "rentabiliweb/rmta-client",
     "description": "RMTA API client implementation in PHP",
+    "keywords": ["rmta", "mail"],
+    "type": "library",
+    "license": "ISC",
     
     "require": {
 	    "php": ">=5.3.0"
