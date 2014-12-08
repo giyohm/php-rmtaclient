@@ -11,7 +11,7 @@ namespace RMTA;
 /**
  * @ignore
  */
-class RMTAException extends Exception {}
+class RMTAException extends \Exception {}
 
 class ClientException extends RMTAException {}
 class ServerException extends RMTAException {}
