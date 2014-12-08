@@ -78,7 +78,7 @@ class Client
 
 	public function api()
 	{
-		return new RMTAAPI($this);
+		return new API($this);
 	}
 
 
