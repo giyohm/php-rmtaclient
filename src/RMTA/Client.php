@@ -38,19 +38,19 @@ class Client
 		$context = stream_context_create($cparams);
 		$fp = fopen($url, 'rb', false, $context);
 		if (!$fp)
-			throw new RMTAServerException("fopen failed");
+			throw new RMTA\ServerException("fopen failed");
 
 		$ret = stream_get_contents($fp);
 		fclose($fp);
 		if ($ret === false)
-			throw new RMTAServerException("stream_get_contents failed");
+			throw new RMTA\ServerException("stream_get_contents failed");
 
 		$json = json_decode($ret, true);
 		if ($json === null)
-			throw new RMTAServerException("json_decode failed");
+			throw new RMTA\ServerException("json_decode failed");
 
 		if (is_array($json) && array_key_exists("error", $json))
-			throw new RMTARemoteCallError($json["error"], 0, NULL, $json["details"]);
+			throw new RMTA\RemoteCallError($json["error"], 0, NULL, $json["details"]);
 
 		return $json;
 	}
@@ -121,7 +121,7 @@ class Client
 	public function timeline($timeframe = "monthly")
 	{
 		if ($timeframe != "monthly")
-			throw new RMTAClientException("invalid timeframe");
+			throw new RMTA\ClientException("invalid timeframe");
 		return $this->rest_call('statistics/entity/timeline/' . $timeframe,
 		    null, "POST");
 	}
@@ -190,7 +190,7 @@ class Client
 	public function scoreSpam($campaign)
 	{
 		if (! $campaign instanceof RMTACampaign)
-			throw new RMTAClientException("expect a RMTACampaign instance");
+			throw new RMTA\ClientException("expect a RMTACampaign instance");
 
 	        $params = array(
 			'domain'      => $campaign->domain,

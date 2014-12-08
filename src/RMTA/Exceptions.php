@@ -6,14 +6,16 @@
  *
  */
 
+namespace RMTA;
+
 /**
  * @ignore
  */
 class RMTAException extends Exception {}
 
-class RMTAClientException extends RMTAException {}
-class RMTAServerException extends RMTAException {}
-class RMTARemoteCallError extends RMTAServerException
+class ClientException extends RMTAException {}
+class ServerException extends RMTAException {}
+class RemoteCallError extends ServerException
 {
 	protected $_details;
 	public function __construct($message = "", $code = 0, Exception $previous = NULL, $details = NULL)
