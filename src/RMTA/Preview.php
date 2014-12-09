@@ -26,10 +26,9 @@ class Preview
 
 	function part($name)
 	{
-		if (isset($this->preview['parts'][$name]))
+		if (! isset($this->preview['parts'][$name]))
 		    return null;
 		return $this->preview['parts'][$name];
-
 	}
 
 	function email()
