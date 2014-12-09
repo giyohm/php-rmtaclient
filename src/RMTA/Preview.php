@@ -24,6 +24,11 @@ class Preview
 		$this->preview = $preview;
 	}
 
+	function sender()
+	{
+		return $this->preview['sender'];
+	}
+
 	function part($name)
 	{
 		if (! isset($this->preview['parts'][$name]))
