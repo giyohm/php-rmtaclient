@@ -41,7 +41,7 @@ class Mail
 
 	public function preview()
 	{
-		$params = array("properties" => $this->content->_serialize());
+		$params = array("properties" => $this->content->_serialize(), "recipient" => $this->recipient);
 		return new Preview($this->spooler->client->rest_call('spooler/'.$this->spooler->id.'/preview', $params, "POST"));
 	}
 }
