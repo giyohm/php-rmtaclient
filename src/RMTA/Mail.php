@@ -42,7 +42,7 @@ class Mail
 	public function preview()
 	{
 		$params = array("properties" => $this->content->_serialize());
-		return $this->spooler->client->rest_call('spooler/'.$this->spooler->id.'/preview', $params, "POST");
+		return new RMTA\Preview($this->spooler->client->rest_call('spooler/'.$this->spooler->id.'/preview', $params, "POST"));
 	}
 }
 
