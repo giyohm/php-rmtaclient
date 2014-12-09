@@ -29,6 +29,16 @@ class Preview
 		return $this->preview['sender'];
 	}
 
+	function recipient()
+	{
+		return $this->preview['rcpt'];
+	}
+
+	function subject()
+	{
+		return $this->preview['subject'];
+	}
+
 	function part($name)
 	{
 		if (! isset($this->preview['parts'][$name]))
