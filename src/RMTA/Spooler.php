@@ -60,6 +60,12 @@ class Spooler
 			return $this->params['name'];
 		}
 		else {
+			try {
+				$params = array('name' => $value);
+				$this->client->rest_call('spooler/'.$this->id.'/set-name', $params, "POST");
+			} catch (Exception $e) {
+				/* temporarily gracefully fail to cope with new client hitting current production */
+			}
 			$this->params['name'] = $value;
 		}
 	}
