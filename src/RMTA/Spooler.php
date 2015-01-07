@@ -78,6 +78,12 @@ class Spooler
 			return $this->params['start'];
 		}
 		else {
+			try {
+				$params = array('start' => $value);
+				$this->client->rest_call('spooler/'.$this->id.'/set-start', $params, "POST");
+			} catch (Exception $e) {
+				/* temporarily gracefully fail to cope with new client hitting current production */
+			}
 			$this->params['start'] = $value;
 		}
 	}
@@ -90,6 +96,12 @@ class Spooler
 			return $this->params['ttl'];
 		}
 		else {
+			try {
+				$params = array('ttl' => $value);
+				$this->client->rest_call('spooler/'.$this->id.'/set-ttl', $params, "POST");
+			} catch (Exception $e) {
+				/* temporarily gracefully fail to cope with new client hitting current production */
+			}
 			$this->params['ttl'] = $value;
 		}
 	}
