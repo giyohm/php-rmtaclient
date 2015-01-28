@@ -96,6 +96,11 @@ class Domain
 		return $this->client->rest_call('statistics/domain/' . $this->domain . '/timeline/' . $timeframe,
 		    null, "POST");
 	}
+
+	public function yp()
+	{
+		return new Yp($this->client, $this->domain);
+	}
 }
 
 ?>
