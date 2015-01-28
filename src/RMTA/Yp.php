@@ -34,7 +34,12 @@ class Yp
 	{
 		return new YpBatch($this);
 	}
-	
+
+	function scoring_result($request_id)
+	{
+		$params = array("request-id" => $request_id);
+		return $this->client->rest_call('yp/'.$this->domain.'/get-scoring-result', $params, "POST");
+	}
 }
 
 ?>
