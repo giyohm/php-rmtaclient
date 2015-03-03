@@ -96,7 +96,7 @@ class Client
 	{
 		if ($timeframe != "monthly")
 			throw new ClientException("invalid timeframe");
-		return $this->rest_call('statistics/entity/timeline/' . $timeframe,
+		return $this->rest_call('entity/timeline/' . $timeframe,
 		    null, "POST");
 	}
 

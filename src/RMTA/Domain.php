@@ -80,10 +80,9 @@ class Domain
 	public function statistics($destination = null)
 	{
 		$params = array(
-			"domain"      => $this->domain,
 		        "destination" => $destination
 		);
-		return new Statistics($this->client->rest_call('domain/statistics', $params, "POST"));
+		return new Statistics($this->client->rest_call('domain/'.$this->domain.'/statistics', $params, "POST"));
 	}
 
 	public function timeline($timeframe = "weekly")
@@ -93,7 +92,7 @@ class Domain
 		    $timeframe != "monthly" &&
 		    $timeframe != "yearly")
 			throw new ClientException("invalid timeframe");
-		return $this->client->rest_call('statistics/domain/' . $this->domain . '/timeline/' . $timeframe,
+		return $this->client->rest_call('domain/' . $this->domain . '/timeline/' . $timeframe,
 		    null, "POST");
 	}
 
