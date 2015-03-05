@@ -152,6 +152,17 @@ class Spooler
 		$params = array("destination" => $destination);
 		return new Statistics($this->client->rest_call('spooler/'.$this->id.'/statistics', $params, "POST"));
 	}
+
+	public function timeline($timeframe = "weekly")
+	{
+		if ($timeframe != "daily" &&
+		    $timeframe != "weekly" &&
+		    $timeframe != "monthly" &&
+		    $timeframe != "yearly")
+			throw new ClientException("invalid timeframe");
+		return $this->client->rest_call('spooler/' . $this->id . '/timeline/' . $timeframe,
+		    null, "POST");
+	}
 }
 
 ?>
