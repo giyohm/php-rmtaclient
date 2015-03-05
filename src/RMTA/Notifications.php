@@ -27,7 +27,7 @@ class Notifications
 
 	public function count()
 	{
-		return $this->client->rest_call('notifications/' . $this->domain . '/count' , array(), "POST");
+		return $this->client->rest_call('domain/'.$this->domain.'/notifications/count' , array(), "POST");
 	}
 
 	public function get($count = 100)

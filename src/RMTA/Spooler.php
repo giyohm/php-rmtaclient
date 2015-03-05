@@ -123,12 +123,7 @@ class Spooler
 
 	public function update()
 	{
-		$params = array(
-			'name'		=> $this->params['name'],
-			'start'		=> $this->params['start'],
-			'ttl'		=> $this->params['ttl'],
-			'properties'    => $this->content->_serialize(),
-		);
+		$params = array('properties' => $this->content->_serialize());
 		return $this->client->rest_call('spooler/'.$this->id.'/update', $params, "POST");
 	}
 

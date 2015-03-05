@@ -56,12 +56,7 @@ class Domain
 
 	public function spooler_create($type = "campaign")
 	{
-		$params = array(
-			'name'  => "No name",
-			'type'  => $type,
-			'start' => time(),
-			'ttl'   => 4 * 24 * 60 * 60,
-			);
+		$params = array('type'  => $type);
 		$id = $this->client->rest_call('domain/'.$this->domain.'/create-spooler', $params, "POST");
 		$data = $this->client->rest_call('spooler/'.$id."/load", null, "POST");
 		return new Spooler($this->client, $data['id'], $data);
@@ -79,11 +74,8 @@ class Domain
 
 	public function statistics($destination = null)
 	{
-		$params = array(
-			"domain"      => $this->domain,
-		        "destination" => $destination
-		);
-		return new Statistics($this->client->rest_call('domain/statistics', $params, "POST"));
+		$params = array("destination" => $destination);
+		return new Statistics($this->client->rest_call('domain/'.$this->domain.'/statistics', $params, "POST"));
 	}
 
 	public function timeline($timeframe = "weekly")
@@ -93,7 +85,7 @@ class Domain
 		    $timeframe != "monthly" &&
 		    $timeframe != "yearly")
 			throw new ClientException("invalid timeframe");
-		return $this->client->rest_call('statistics/domain/' . $this->domain . '/timeline/' . $timeframe,
+		return $this->client->rest_call('domain/' . $this->domain . '/timeline/' . $timeframe,
 		    null, "POST");
 	}
 

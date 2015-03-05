@@ -30,18 +30,18 @@ class Mail
 	{
 		$params = array("recipients" => array($this->recipient => $this->content->_serialize()));
 		$ret = $this->spooler->client->rest_call('spooler/'.$this->spooler->id.'/spool', $params, "POST");
-		return $ret[0];
+		return $ret;
 	}
 
 	public function score()
 	{
-		$params = array("properties" => $this->content->_serialize());
+		$params = array("recipient" => $this->recipient, "properties" => $this->content->_serialize());
 		return $this->spooler->client->rest_call('spooler/'.$this->spooler->id.'/score', $params, "POST");
 	}
 
 	public function preview()
 	{
-		$params = array("properties" => $this->content->_serialize(), "recipient" => $this->recipient);
+		$params = array("recipient" => $this->recipient, "properties" => $this->content->_serialize());
 		return new Preview($this->spooler->client->rest_call('spooler/'.$this->spooler->id.'/preview', $params, "POST"));
 	}
 }

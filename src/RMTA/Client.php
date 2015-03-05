@@ -21,6 +21,7 @@ namespace RMTA;
  * URL of production API servers, default value for RMTAClient connector
  */
 define('RMTA_API_URL', 'https://api2.rmta-services.com/api');
+define('RMTA_API_VERSION', '2.0');
 
 class Client
 {
@@ -60,9 +61,9 @@ class Client
 		return $json;
 	}
 
-	function __construct($username, $password, $url = RMTA_API_URL) {
+	function __construct($username, $password, $url = RMTA_API_URL, $version = RMTA_API_VERSION) {
 		$this->token = null;
-		$this->url = $url;
+		$this->url = $url . '/' . $version;
 		$json = $this->rest_call('authenticate', array( 'username' => $username, 'password' => $password ), "POST");
 		$this->token  = $json["token"];
 	}
