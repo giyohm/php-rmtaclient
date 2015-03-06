@@ -63,6 +63,13 @@ class QueueIterator
 			);
 		return $this->spooler->client->rest_call('spooler/'.$this->spooler->id.'/queue/mails', $params, "POST");
 	}
+
+	public function lookup($type, $term)
+	{
+		$url = 'spooler/'.$this->spooler->id.'/queue/lookup/'.$type;
+		$params = array("term" => $term);
+		return $this->spooler->client->rest_call($url, $params, "POST");
+	}
 }
 
 ?>

@@ -17,7 +17,7 @@
 
 namespace RMTA;
 
-/**
+/*
  * URL of production API servers, default value for RMTAClient connector
  */
 define('RMTA_API_URL', 'https://api2.rmta-services.com/api');
@@ -27,7 +27,7 @@ class Client
 {
 	function rest_call($remote_method, $params = null, $verb = 'POST')
 	{
-		$cparams = array( 'http' => array( 'method' => $verb, 'ignore_errors' => false, 'header' => "Content-type: application/json\r\n" ) );
+		$cparams = array( 'http' => array( 'method' => $verb, 'ignore_errors' => true, 'header' => "Content-type: application/json\r\n" ) );
 
 		$url = $this->url.'/'.$remote_method.'/';
 		if ($this->token)
@@ -50,13 +50,11 @@ class Client
 		fclose($fp);
 		if ($ret === false)
 			throw new ServerException("stream_get_contents failed");
-
 		$json = json_decode($ret, true);
 		if ($json === null)
 			throw new ServerException("json_decode failed");
-
 		if (is_array($json) && array_key_exists("error", $json))
-			throw new RemoteCallError($json["error"], 0, NULL, $json["details"]);
+			throw new RemoteCallError($json["error"], 0, NULL);
 
 		return $json;
 	}
