@@ -121,12 +121,6 @@ class Spooler
 		return new Mail($this, $recipient);
 	}
 
-	public function update()
-	{
-		$params = array('properties' => $this->content->_serialize());
-		return $this->client->rest_call('spooler/'.$this->id.'/update', $params, "POST");
-	}
-
 	public function shoot()
 	{
 		return $this->client->rest_call('spooler/'.$this->id.'/shoot', null, "POST");
