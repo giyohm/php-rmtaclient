@@ -138,7 +138,10 @@ class Spooler
 
 	public function statistics($destination = null)
 	{
-		$params = array("destination" => $destination);
+		if ($destination == null)
+			$params = array();
+		else
+			$params = array("destination" => $destination);
 		return new Statistics($this->client->rest_call('spooler/'.$this->id.'/statistics', $params, "POST"));
 	}
 
