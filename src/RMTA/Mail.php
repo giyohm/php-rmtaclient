@@ -35,13 +35,13 @@ class Mail
 
 	public function score()
 	{
-		$params = array("recipient" => $this->recipient, "properties" => $this->content->_serialize());
+		$params = array("recipient" => $this->recipient, "content" => $this->content->_serialize());
 		return $this->spooler->client->rest_call('spooler/'.$this->spooler->id.'/score', $params, "POST");
 	}
 
 	public function preview()
 	{
-		$params = array("recipient" => $this->recipient, "properties" => $this->content->_serialize());
+		$params = array("recipient" => $this->recipient, "content" => $this->content->_serialize());
 		return new Preview($this->spooler->client->rest_call('spooler/'.$this->spooler->id.'/preview', $params, "POST"));
 	}
 }

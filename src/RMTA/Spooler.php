@@ -28,7 +28,7 @@ class Spooler
 		$this->state      = null;
 		$this->summary    = null;
 		$this->params     = array();
-		$this->content    = new Content();
+		$this->content    = new Content($this);
 		$this->_setup($data);
 	}
 
@@ -43,8 +43,8 @@ class Spooler
 		$this->params['start'] = $data['start'];
 		$this->params['ttl'] = $data['ttl'];
 
-		if (is_array($data['properties']))
-			$this->content->content = $data['properties'];
+		if (is_array($data['content']))
+			$this->content->content = $data['content'];
 	}
 
 	function identifier()

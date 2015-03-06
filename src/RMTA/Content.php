@@ -19,8 +19,9 @@ namespace RMTA;
 
 class Content
 {
-	function __construct()
+	function __construct($spooler = null)
 	{
+		$this->spooler = $spooler;
 		$this->content = array();
 	}
 
@@ -103,18 +104,18 @@ class Content
 	{
 		/* TODO: change 'content' to 'parts' */
 		if ($type === null || $content === null) {
-			if (!array_key_exists('content', $this->content))
+			if (!array_key_exists('parts', $this->content))
 				return null;
-			if (!array_key_exists($name, $this->content['content']))
+			if (!array_key_exists($name, $this->content['parts']))
 				return null;
-			if ($this->content['content'][$name]['type'] != 'content')
+			if ($this->content['parts'][$name]['type'] != 'content')
 				return null;
-			return $this->content['content'][$name];
+			return $this->content['parts'][$name];
 		}
 		else {
-			if (!array_key_exists('content', $this->content))
-				$this->content['content'] = array();
-			$this->content['content'][$name] = array('type' => 'content', 'content-type' => $type, 'content' => $content);
+			if (!array_key_exists('parts', $this->content))
+				$this->content['parts'] = array();
+			$this->content['parts'][$name] = array('type' => 'content', 'content-type' => $type, 'content' => $content);
 		}
 	}
 
@@ -122,18 +123,26 @@ class Content
 	{
 		/* TODO: change 'content' to 'parts' */
 		if ($template === null) {
-			if (!array_key_exists('content', $this->content))
+			if (!array_key_exists('parts', $this->content))
 				return null;
-			if (!array_key_exists($name, $this->content['content']))
+			if (!array_key_exists($name, $this->content['parts']))
 				return null;
-			if ($this->content['content'][$name]['type'] != 'template')
+			if ($this->content['parts'][$name]['type'] != 'template')
 				return null;
-			return $this->content['content'][$name];
+			return $this->content['parts'][$name];
 		}
 		else {
-			if (!array_key_exists('content', $this->content))
+			if (!array_key_exists('parts', $this->content))
 				$this->content['content'] = array();
-			$this->content['content'][$name] = array('type' => 'template', 'template' => $template);
+			$this->content['parts'][$name] = array('type' => 'template', 'template' => $template);
+		}
+	}
+
+       	public function update()
+	{
+		if ($this->spooler) {
+			$params = array('content' => $this->_serialize());
+			return $this->spooler->client->rest_call('spooler/'.$this->spooler->id.'/set-content', $params, "POST");
 		}
 	}
 }
