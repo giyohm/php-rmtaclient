@@ -32,6 +32,30 @@ class Content
 		return $this->content;
 	}
 
+	function sender($value = null)
+	{
+		if ($value === null) {
+			if (!array_key_exists('sender', $this->content))
+				return null;
+			return $this->content['sender'];
+		}
+		else {
+			$this->content['sender'] = $value;
+		}
+	}
+
+	function recipient($value = null)
+	{
+		if ($value === null) {
+			if (!array_key_exists('recipient', $this->content))
+				return null;
+			return $this->content['recipient'];
+		}
+		else {
+			$this->content['recipient'] = $value;
+		}
+	}
+	
 	function subject($value = null)
 	{
 		if ($value === null) {
