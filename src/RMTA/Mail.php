@@ -19,6 +19,9 @@ namespace RMTA;
 
 class Mail
 {
+	/**
+	 * @ignore
+	 */
 	function __construct($spooler, $recipient)
 	{
 		$this->spooler   = $spooler;
@@ -26,6 +29,11 @@ class Mail
 		$this->content   = new Content();
 	}
 
+	/**
+	 * Request this Mail object to be added to the spooler
+	 *
+	 * @return array
+	 */
 	public function spool()
 	{
 		$params = array("recipients" => array($this->recipient => $this->content->_serialize()));
@@ -33,12 +41,22 @@ class Mail
 		return $ret;
 	}
 
+	/**
+	 * Request this Mail object to be scored
+	 *
+	 * @return array
+	 */
 	public function score()
 	{
 		$params = array("recipient" => $this->recipient, "content" => $this->content->_serialize());
 		return $this->spooler->client->rest_call('spooler/'.$this->spooler->id.'/score', $params, "POST");
 	}
 
+	/**
+	 * Request this Mail object to be previewed
+	 *
+	 * @return Preview
+	 */
 	public function preview()
 	{
 		$params = array("recipient" => $this->recipient, "content" => $this->content->_serialize());

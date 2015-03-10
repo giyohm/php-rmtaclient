@@ -17,6 +17,9 @@
 
 namespace RMTA;
 
+/**
+ * @ignore
+ */
 class API
 {
 	function __construct($client)

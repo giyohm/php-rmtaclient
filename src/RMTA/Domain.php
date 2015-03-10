@@ -19,17 +19,32 @@ namespace RMTA;
 
 class Domain
 {
+	/**
+	 * @ignore
+	 */
 	function __construct($client, $name)
 	{
 		$this->client = $client;
 		$this->domain = $name;
 	}
 
+	/**
+	 * get the name associated to this Domain connector
+	 *
+	 * @return string
+	 */
 	public function name()
 	{
 		return $this->domain;
 	}
 
+	/**
+	 * get a list of Spooler connectors for this domain matching the requested $options
+	 *
+	 * @param array $options a list of options to match against spoolers
+	 *
+	 * @return Spooler[]
+	 */
 	public function spooler_list($options=null)
 	{
 		$domain	= $this->domain;
@@ -54,6 +69,13 @@ class Domain
 		return $res;
 	}
 
+	/**
+	 * create a new spooler for this Domain and obtain a Spooler connector
+	 *
+	 * @param string $type type of the spooler to create (service, campaign, transactional, permanent)
+	 *
+	 * @return Spooler
+	 */
 	public function spooler_create($type = "campaign")
 	{
 		$params = array('type'  => $type);
@@ -62,16 +84,29 @@ class Domain
 		return new Spooler($this->client, $data['id'], $data);
 	}
 
+	/**
+	 * Obtain a Notifications connector for this Domain
+	 *
+	 * @return Notifications
+	 */
 	public function notifications()
 	{
 		return new Notifications($this->client, $this->domain);
 	}
 
+	/**
+	 * Obtain a Templates connector for this Domain
+	 *
+	 * @return Templates
+	 */
 	public function templates()
 	{
 		return new Templates($this->client, $this->domain);
 	}
 
+	/**
+	 * @ignore
+	 */
 	public function statistics($destination = null)
 	{
 		if ($destination == null)
@@ -81,6 +116,9 @@ class Domain
 		return new Statistics($this->client->rest_call('domain/'.$this->domain.'/statistics', $params, "POST"));
 	}
 
+	/**
+	 * @ignore
+	 */
 	public function timeline($timeframe = "weekly")
 	{
 		if ($timeframe != "daily" &&
@@ -92,6 +130,9 @@ class Domain
 		    null, "POST");
 	}
 
+	/**
+	 * @ignore
+	 */
 	public function yp()
 	{
 		return new Yp($this->client, $this->domain);

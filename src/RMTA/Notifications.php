@@ -19,25 +19,52 @@ namespace RMTA;
 
 class Notifications
 {
+	/**
+	 * @ignore
+	 */
 	function __construct($client, $domain)
 	{
 		$this->client = $client;
 		$this->domain = $domain;
 	}
 
+	/**
+	 * Request the number of pending notifications to process
+	 *
+	 * @return integer
+	 */
 	public function count()
 	{
 		return $this->client->rest_call('domain/'.$this->domain.'/notifications/count' , array(), "POST");
 	}
 
+	/**
+	 * Retrieve $count notifications from the Notifications queue
+	 *
+	 * @return Notification[]
+	 */
 	public function get($count = 100)
 	{
 		$params = array('count'  => $count);
-		return $this->client->rest_call('domain/'.$this->domain.'/notifications/get', $params, "POST");
+		$result = $this->client->rest_call('domain/'.$this->domain.'/notifications/get', $params, "POST");
+		$notifs = array();
+		foreach($result as $r) {
+			array_push($notifs, new Notification($this, $r));
+		}
+		return $notifs;
 	}
 
-	public function delete($ids)
+	/**
+	 * Delete all notifications passed as parameter
+	 *
+	 * @param Notification[] $notifications list of Notification to delete
+	 */
+	public function delete($notifications)
 	{
+		$ids = array();
+		foreach($notifications as $n) {
+			array_push($ids, $n->id());
+		}
 		$params = array('ids'=>$ids);
 		$this->client->rest_call('domain/'.$this->domain.'/notifications/delete', $params, "POST");
 	}

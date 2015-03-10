@@ -19,12 +19,18 @@ namespace RMTA;
 
 class Content
 {
+	/**
+	 * @ignore
+	 */
 	function __construct($spooler = null)
 	{
 		$this->spooler = $spooler;
 		$this->content = array();
 	}
 
+	/**
+	 * @ignore
+	 */
 	function _serialize()
 	{
 		if (count($this->content) == 0)
@@ -32,6 +38,13 @@ class Content
 		return $this->content;
 	}
 
+	/**
+	 * Set or get a sender associated to this content
+	 *
+	 * @param string $value Value to be used for the From header (ie: "John Doe &lt;john.doe@octosender.com&gt;")
+	 *
+	 * @return string|null
+	 */
 	function sender($value = null)
 	{
 		if ($value === null) {
@@ -44,6 +57,13 @@ class Content
 		}
 	}
 
+	/**
+	 * Set or get a recipient associated to this content
+	 *
+	 * @param string $value Value to be used for the To header (ie: "John Doe &lt;john.doe@octosender.com&gt;")
+	 *
+	 * @return string|null
+	 */
 	function recipient($value = null)
 	{
 		if ($value === null) {
@@ -55,7 +75,14 @@ class Content
 			$this->content['recipient'] = $value;
 		}
 	}
-	
+
+	/**
+	 * Set or get a subject associated to this content
+	 *
+	 * @param string $value Value to be used for the Subject header (ie: "This is a test")
+	 *
+	 * @return string|null
+	 */
 	function subject($value = null)
 	{
 		if ($value === null) {
@@ -68,6 +95,13 @@ class Content
 		}
 	}
 
+	/**
+	 * Set or get name of content part to be used for mirror links
+	 *
+	 * @param string $value name of content part to be used for mirror links
+	 *
+	 * @return string|null
+	 */
 	function mirror($value = null)
 	{
 		if ($value === null) {
@@ -80,6 +114,14 @@ class Content
 		}
 	}
 
+	/**
+	 * Set or get type and value used to generate unsubscribe links
+	 *
+	 * @param string $type type for the unsubscribe value (redirect, html, template, part)
+	 * @param string $value unsusbcribe value (url if redirect, content if html, name if template or part)
+	 *
+	 * @return string|null
+	 */
 	function unsubscribe($type = null, $value = null)
 	{
 		if ($type === null || $value === null) {
@@ -91,7 +133,15 @@ class Content
 			$this->content['unsubscribe'] = array($type, $value);
 		}
 	}
-
+	
+	/**
+	 * Set or get email header
+	 *
+	 * @param string $key header name
+	 * @param string $value header value if not null
+	 *
+	 * @return string|null
+	 */
 	function header($key, $value = null)
 	{
 		if ($value === null) {
@@ -108,6 +158,14 @@ class Content
 		}
 	}
 
+	/**
+	 * Set or get expand variable
+	 *
+	 * @param string $key expand variable name
+	 * @param string $value expand variable value if not null
+	 *
+	 * @return string|null
+	 */
 	function expand($key, $value = null)
 	{
 		if ($value === null) {
@@ -124,6 +182,15 @@ class Content
 		}
 	}
 
+	/**
+	 * Set or get mail part
+	 *
+	 * @param string $name name for this part (must be unique per content)
+	 * @param string $type mime-type for this part
+	 * @param string $content content for this part
+	 *
+	 * @return string|null
+	 */
 	function part($name, $type = null, $content = null)
 	{
 		/* TODO: change 'content' to 'parts' */
@@ -143,6 +210,14 @@ class Content
 		}
 	}
 
+	/**
+	 * Set or get template part
+	 *
+	 * @param string $name name of this template part
+	 * @param string $template template to include in this part
+	 *
+	 * @return string|null
+	 */
 	function template($name, $template = null)
 	{
 		/* TODO: change 'content' to 'parts' */
@@ -162,6 +237,11 @@ class Content
 		}
 	}
 
+	/**
+	 * If content is part of a spooler, update the spooler to reflect changes
+	 *
+	 * @return void
+	 */
        	public function update()
 	{
 		if ($this->spooler) {

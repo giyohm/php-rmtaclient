@@ -25,6 +25,9 @@ define('RMTA_API_VERSION', '2.0');
 
 class Client
 {
+	/**
+	 * @ignore
+	 */
 	function rest_call($remote_method, $params = null, $verb = 'POST')
 	{
 		$cparams = array( 'http' => array( 'method' => $verb, 'ignore_errors' => true, 'header' => "Content-type: application/json\r\n" ) );
@@ -59,6 +62,27 @@ class Client
 		return $json;
 	}
 
+	/**
+	 * @ignore
+	 */
+	public function api()
+	{
+		return new API($this);
+	}
+
+	
+	/**
+	 * Client constructor.
+	 *
+	 * Authenticates a client using a credentials tuple consisting of a username and password
+	 *
+	 * @param string $username client username
+	 * @param string $password client password
+	 * @param string $url (optional) API server URL for debugging purposes
+	 * @param string $version (optional) API version for debugging purposes
+	 *
+	 * @return void
+	 */
 	function __construct($username, $password, $url = RMTA_API_URL, $version = RMTA_API_VERSION) {
 		$this->token = null;
 		$this->url = $url . '/' . $version;
@@ -66,31 +90,56 @@ class Client
 		$this->token  = $json["token"];
 	}
 
-	public function api()
-	{
-		return new API($this);
-	}
-
+	/**
+	 * Return a Domain connector for a specific domain
+	 *
+	 * @param string $domain domain for which the connector is requested
+	 *
+	 * @return Domain
+	 */
 	function domain($domain)
 	{
 		return $this->api()->domain($domain);
 	}
 
+
+	/**
+	 * Return a Spooler connector for a specific spooler
+	 *
+	 * @param integer $spooler_id spooler identifier for which the connector is requested
+	 *
+	 * @return Spooler
+	 */
 	function spooler($spooler_id)
 	{
 		return $this->api()->spooler($spooler_id);
 	}
 
+	/**
+	 * Return a list of Domain connectors for all domains belonging to the client
+	 *
+	 * @return Domain[]
+	 */
 	function domain_list()
 	{
 		return $this->api()->domain_list();
 	}
 
+	/**
+	 * Return a list of Spooler connectors belonging to the client and respecting $options 
+	 *
+	 * @param array $options a list of options that a spooler should match to be returned by this call
+	 *
+	 * @return Spooler[]
+	 */
 	function spooler_list($options = null)
 	{
 		return $this->api()->spooler_list($options);
 	}
 
+	/**
+	 * @ignore
+	 */
 	public function timeline($timeframe = "monthly")
 	{
 		if ($timeframe != "monthly")
@@ -101,7 +150,9 @@ class Client
 
 
 	/* TEMPORARY AND / OR LEGACY */
-
+	/**
+	 * @ignore
+	 */
 	public function scoreText($text)
 	{
 	        $params = array(
@@ -109,7 +160,10 @@ class Client
 		);
 		return $this->rest_call('scoring/text', $params, "POST");
 	}
-
+	
+	/**
+	 * @ignore
+	 */
 	public function cleanupText($text)
 	{
 	        $params = array(
@@ -117,7 +171,10 @@ class Client
 		);
 		return $this->rest_call('cleanup/text', $params, "POST");
 	}
-
+	
+	/**
+	 * @ignore
+	 */
 	public function scoreHtml($html)
 	{
 	        $params = array(
@@ -125,7 +182,10 @@ class Client
 		);
 		return $this->rest_call('scoring/html', $params, "POST");
 	}
-
+	
+	/**
+	 * @ignore
+	 */
 	public function cleanupHtml($html)
 	{
 	        $params = array(
@@ -133,7 +193,10 @@ class Client
 		);
 		return $this->rest_call('cleanup/html', $params, "POST");
 	}
-
+	
+	/**
+	 * @ignore
+	 */
 	public function Html2Text($html)
 	{
 	        $params = array(
@@ -142,7 +205,9 @@ class Client
 		return $this->rest_call('cleanup/html2text', $params, "POST");
 	}
 
-	/* standalone calls */
+	/**
+	 * @ignore
+	 */
 	public function html_to_text($html)
 	{
 		$params = array(
