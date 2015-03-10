@@ -39,10 +39,33 @@ class Notification
 		return $this->id;
 	}
 
+	/**
+	 * Delete the current Notification from the Notifications queue
+	 */
 	public function delete()
 	{
 		$params = array('ids'=>array($this->id));
 		$this->notifications->client->rest_call('domain/'.$this->notifications->domain.'/notifications/delete', $params, "POST");
+	}
+
+	public function timestamp()
+	{
+		return $this->data['timestamp'];
+	}
+
+	public function spooler()
+	{
+		return $this->data['spooler-id'];
+	}
+
+	public function notice()
+	{
+		return $this->data['notice'];
+	}
+
+	public function payload()
+	{
+		return $this->data['payload'];
 	}
 }
 
