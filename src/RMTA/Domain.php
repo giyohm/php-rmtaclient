@@ -57,11 +57,13 @@ class Domain
 				$state = is_array($options['state']) ? $options['state'] : array($options['state']);
 		}
 
-		$params = array(
-			"domain"=> $domain,
-			"type"	=> $type,
-			"state"	=> $state,
-		);
+		$params = array();
+		if ($domain != null)
+			$params['domains'] = $domain;
+		if ($type != null)
+			$params['types'] = $type;
+		if ($state != null)
+			$params['states'] = $state;
 
 		$res = array();
 		foreach ($this->client->rest_call('spooler-list', $params, "POST") as $value)

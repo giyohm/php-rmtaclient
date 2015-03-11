@@ -19,26 +19,49 @@ namespace RMTA;
 
 class Preview
 {
+	/**
+	 * @ignore
+	 */
 	function __construct($preview)
 	{
 		$this->preview = $preview;
 	}
 
+	/**
+	 * Retrieve the SMTP level sender used for this message
+	 *
+	 * @return string
+	 */
 	function sender()
 	{
 		return $this->preview['sender'];
 	}
 
+	/**
+	 * Retrieve the SMTP level recipient used for this message
+	 *
+	 * @return string
+	 */
 	function recipient()
 	{
 		return $this->preview['rcpt'];
 	}
 
+	/**
+	 * Retrieve the subject for this message
+	 *
+	 * @return string
+	 */
 	function subject()
 	{
 		return $this->preview['subject'];
 	}
 
+	/**
+	 * Retrieve part named $name with expansion variables rendered
+	 *
+	 * @return string
+	 */
 	function part($name)
 	{
 		if (! isset($this->preview['parts'][$name]))
@@ -46,6 +69,11 @@ class Preview
 		return $this->preview['parts'][$name];
 	}
 
+	/**
+	 * Retrieve a rendered version of the entire email as seen on the wire
+	 *
+	 * @return string
+	 */
 	function email()
 	{
 		return $this->preview['email'];

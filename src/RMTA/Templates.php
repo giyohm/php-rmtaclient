@@ -19,6 +19,9 @@ namespace RMTA;
 
 class Templates
 {
+	/**
+	 * @ignore
+	 */
 	function __construct($client, $domain)
 	{
 		$this->client = $client;

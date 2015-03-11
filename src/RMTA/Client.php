@@ -99,7 +99,7 @@ class Client
 	 */
 	function domain($domain)
 	{
-		return $this->api()->domain($domain);
+		return new Domain($this, $domain);
 	}
 
 
@@ -112,7 +112,8 @@ class Client
 	 */
 	function spooler($spooler_id)
 	{
-		return $this->api()->spooler($spooler_id);
+		$s = $this->rest_call('spooler/'.$spooler_id.'/load', null, "POST");
+		return new Spooler($this, $s['id'], $s);
 	}
 
 	/**
@@ -122,7 +123,10 @@ class Client
 	 */
 	function domain_list()
 	{
-		return $this->api()->domain_list();
+		$ret = array();
+		foreach ($this->rest_call('domain-list', null, "POST") as $value)
+		    array_push($ret, $this->domain($value));
+		return $ret;
 	}
 
 	/**
@@ -134,7 +138,30 @@ class Client
 	 */
 	function spooler_list($options = null)
 	{
-		return $this->api()->spooler_list($options);
+		$domain	= null;
+		$type   = null;
+		$state	= null;
+		if ($options != null) {
+			if (array_key_exists("domain", $options) && $options['domain'] != null)
+				$domain = is_array($options['domain']) ? $options['domain'] : array($options['domain']);
+			if (array_key_exists("type", $options) && $options['type'] != null)
+				$type = is_array($options['type']) ? $options['type'] : array($options['type']);
+			if (array_key_exists("state", $options) && $options['state'] != null)
+				$state = is_array($options['state']) ? $options['state'] : array($options['state']);
+		}
+
+		$params = array();
+		if ($domain != null)
+			$params['domains'] = $domain;
+		if ($type != null)
+			$params['types'] = $type;
+		if ($state != null)
+			$params['states'] = $state;
+
+		$res = array();
+		foreach ($this->rest_call('spooler-list', $params, "POST") as $value)
+			array_push($res, new Spooler($this, $value['id'], $value));
+		return $res;		
 	}
 
 	/**

@@ -19,6 +19,9 @@ namespace RMTA;
 
 class QueueIterator
 {
+	/**
+	 * @ignore
+	 */
 	function __construct($spooler, $options)
 	{
 		$this->spooler = $spooler;
@@ -40,6 +43,11 @@ class QueueIterator
 		}
 	}
 
+	/**
+	 * Retrieve the number of messages in this QueueIterator instance
+	 *
+	 * @return integer
+	 */
 	public function size()
 	{
 		$params = array(
@@ -51,6 +59,14 @@ class QueueIterator
 		return $this->spooler->client->rest_call('spooler/'.$this->spooler->id.'/queue/size', $params, "POST");
 	}
 
+	/**
+	 * Retrieve a list of $count Mail instances starting at offset $offset
+	 *
+	 * @param integer $offset (optional) offset of first Mail to retrieve
+	 * @param integer $count (optional) number of Mail instances to retrieve
+	 *
+	 * @return Mail[]
+	 */
 	public function mails($offset = 0, $count = 5000)
 	{
 		$params = array(
@@ -64,6 +80,14 @@ class QueueIterator
 		return $this->spooler->client->rest_call('spooler/'.$this->spooler->id.'/queue/mails', $params, "POST");
 	}
 
+	/**
+	 * Lookup email addresses or domain names by prefix
+	 *
+	 * @param string $type type of lookup to perform ("address", "domain")
+	 * @param string $term prefix for the lookup
+	 *
+	 * @return string[]
+	 */
 	public function lookup($type, $term)
 	{
 		$url = 'spooler/'.$this->spooler->id.'/queue/lookup/'.$type;
