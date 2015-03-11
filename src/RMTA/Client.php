@@ -63,15 +63,6 @@ class Client
 	}
 
 	/**
-	 * @ignore
-	 */
-	public function api()
-	{
-		return new API($this);
-	}
-
-	
-	/**
 	 * Client constructor.
 	 *
 	 * Authenticates a client using a credentials tuple consisting of a username and password
