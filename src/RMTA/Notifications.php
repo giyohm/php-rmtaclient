@@ -63,10 +63,47 @@ class Notifications
 	{
 		$ids = array();
 		foreach($notifications as $n) {
-			array_push($ids, $n->id());
+			array_push($ids, $n->identifier());
 		}
 		$params = array('ids'=>$ids);
-		$this->client->rest_call('domain/'.$this->domain.'/notifications/delete', $params, "POST");
+		return $this->client->rest_call('domain/'.$this->domain.'/notifications/delete', $params, "POST");
+	}
+
+
+	/**
+	 * Obtain the list of events for which we wanted to be notified
+	 *
+	 * @return string[]
+	 */
+	public function registered()
+	{
+		return $this->client->rest_call('domain/'.$this->domain.'/notifications/registered', array(), "POST");
+	}
+
+	/**
+	 * Register an event for notifications
+	 *
+	 * @param string $value name of the event for which notifications should be generated
+	 *
+	 * @return boolean
+	 */
+	public function register($value)
+	{
+		$params = array("notice" => $value);
+		return $this->client->rest_call('domain/'.$this->domain.'/notifications/register', $params, "POST");
+	}
+
+	/**
+	 * Unregister an event for notifications
+	 *
+	 * @param string $value name of the event for which notifications should no longer be generated
+	 *
+	 * @return boolean
+	 */
+	public function unregister($value)
+	{
+		$params = array("notice" => $value);
+		return $this->client->rest_call('domain/'.$this->domain.'/notifications/unregister', $params, "POST");
 	}
 }
 

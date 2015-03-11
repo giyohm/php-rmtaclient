@@ -31,7 +31,11 @@ class Templates
 	public function listing($type)
 	{
 		$params = array('type' => $type);
-		return $this->client->rest_call('domain/'.$this->domain.'/templates/list', $params, "POST");
+		$a = array();
+		foreach ($this->client->rest_call('domain/'.$this->domain.'/templates/list', $params, "POST") as $t)
+		    array_push($a, new Template($this->client, $this->domain, $t));
+		return $a;
+		
 	}
 
 	public function get($name)

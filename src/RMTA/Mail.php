@@ -22,13 +22,24 @@ class Mail
 	/**
 	 * @ignore
 	 */
-	function __construct($spooler, $recipient)
+	function __construct($spooler, $recipient, $info = null)
 	{
 		$this->spooler   = $spooler;
 		$this->recipient = $recipient;
 		$this->content   = new Content();
+		$this->info      = $info;
 	}
 
+	/**
+	 * Obtain the recipient associated to this Mail object
+	 *
+	 * @return string
+	 */
+	public function recipient()
+	{
+		return $this->recipient;
+	}
+	
 	/**
 	 * Request this Mail object to be added to the spooler
 	 *
@@ -37,19 +48,21 @@ class Mail
 	public function spool()
 	{
 		$params = array("recipients" => array($this->recipient => $this->content->_serialize()));
-		$ret = $this->spooler->client->rest_call('spooler/'.$this->spooler->id.'/spool', $params, "POST");
-		return $ret;
+		return $this->spooler->client->rest_call('spooler/'.$this->spooler->id.'/spool', $params, "POST");
 	}
 
 	/**
 	 * Request this Mail object to be scored
 	 *
-	 * @return array
+	 * @return Score
 	 */
 	public function score()
 	{
-		$params = array("recipient" => $this->recipient, "content" => $this->content->_serialize());
-		return $this->spooler->client->rest_call('spooler/'.$this->spooler->id.'/score', $params, "POST");
+		$params = array("recipient" => $this->recipient);
+		$serialized = $this->content->_serialize();
+		if ($serialized)
+			$params['content'] = $serialized;
+		return new Score($this->spooler->client->rest_call('spooler/'.$this->spooler->id.'/score', $params, "POST"));
 	}
 
 	/**
@@ -59,7 +72,10 @@ class Mail
 	 */
 	public function preview()
 	{
-		$params = array("recipient" => $this->recipient, "content" => $this->content->_serialize());
+		$params = array("recipient" => $this->recipient);
+		$serialized = $this->content->_serialize();
+		if ($serialized)
+			$params['content'] = $serialized;
 		return new Preview($this->spooler->client->rest_call('spooler/'.$this->spooler->id.'/preview', $params, "POST"));
 	}
 }

@@ -47,23 +47,23 @@ class Domain
 	 */
 	public function spooler_list($options=null)
 	{
-		$domain	= $this->domain;
-		$type   = null;
-		$state	= null;
+		$domains = array($this->domain);
+		$types   = null;
+		$states	 = null;
 		if ($options != null) {
-			if (array_key_exists("type", $options) && $options['type'] != null)
-				$type = is_array($options['type']) ? $options['type'] : array($options['type']);
-			if (array_key_exists("state", $options) && $options['state'] != null)
-				$state = is_array($options['state']) ? $options['state'] : array($options['state']);
+			if (array_key_exists("types", $options) && $options['types'] != null)
+				$types = is_array($options['types']) ? $options['types'] : array($options['types']);
+			if (array_key_exists("states", $options) && $options['states'] != null)
+				$states = is_array($options['states']) ? $options['states'] : array($options['states']);
 		}
 
 		$params = array();
-		if ($domain != null)
-			$params['domains'] = $domain;
-		if ($type != null)
-			$params['types'] = $type;
-		if ($state != null)
-			$params['states'] = $state;
+		if ($domains != null)
+			$params['domains'] = $domains;
+		if ($types != null)
+			$params['types'] = $types;
+		if ($states != null)
+			$params['states'] = $states;
 
 		$res = array();
 		foreach ($this->client->rest_call('spooler-list', $params, "POST") as $value)

@@ -74,7 +74,7 @@ class Spooler
 	 *
 	 * @param string $value name to assign to the spooler
 	 *
-	 * @return string spooler name
+	 * @return string|void spooler name if get, nothing if set
 	 */
 	function name($value = null)
 	{

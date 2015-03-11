@@ -26,20 +26,20 @@ class QueueIterator
 	{
 		$this->spooler = $spooler;
 
-		$this->domain	= null;
-		$this->routing	= null;
-		$this->router	= null;
-		$this->activity	= null;
+		$this->domains	  = null;
+		$this->routing	  = null;
+		$this->routers	  = null;
+		$this->activities = null;
 
 		if ($options != null) {
-			if (array_key_exists("domain", $options))
-				$this->domain = is_array($options['domain']) ? $options['domain'] : array($options['domain']);
+			if (array_key_exists("domains", $options))
+				$this->domains = is_array($options['domains']) ? $options['domains'] : array($options['domains']);
 			if (array_key_exists("routing", $options) && $options['routing'] != null)
 				$this->routing = is_array($options['routing']) ? $options['routing'] : array($options['routing']);
-			if (array_key_exists("router", $options) && $options['router'] != null)
-				$this->router = is_array($options['router']) ? $options['router'] : array($options['router']);
-			if (array_key_exists("activity", $options) && $options['activity'] != null)
-				$this->activity = is_array($options['activity']) ? $options['activity'] : array($options['activity']);
+			if (array_key_exists("routers", $options) && $options['routers'] != null)
+				$this->routers = is_array($options['routers']) ? $options['routers'] : array($options['routers']);
+			if (array_key_exists("activities", $options) && $options['activities'] != null)
+				$this->activities = is_array($options['activities']) ? $options['activities'] : array($options['activities']);
 		}
 	}
 
@@ -50,12 +50,15 @@ class QueueIterator
 	 */
 	public function size()
 	{
-		$params = array(
-			"domain"  => $this->domain,
-			"routing" => $this->routing,
-			"router" => $this->router,
-			"activity" => $this->activity,
-			);
+		$params = array();
+		if ($this->domains)
+			$params['domains'] = $this->domains;
+		if ($this->routing)
+			$params['routing'] = $this->routing;
+		if ($this->routers)
+			$params['routers'] = $this->routers;
+		if ($this->activities)
+			$params['activities'] = $this->activities;
 		return $this->spooler->client->rest_call('spooler/'.$this->spooler->id.'/queue/size', $params, "POST");
 	}
 
@@ -69,15 +72,24 @@ class QueueIterator
 	 */
 	public function mails($offset = 0, $count = 5000)
 	{
-		$params = array(
-			"offset"   => $offset,
-			"count"    => $count,
-			"domain"   => $this->domain,
-			"routing"  => $this->routing,
-			"router"   => $this->router,
-			"activity" => $this->activity,
-			);
-		return $this->spooler->client->rest_call('spooler/'.$this->spooler->id.'/queue/mails', $params, "POST");
+		$params = array();
+		$params['offset'] = $offset;
+		$params['count']  = $count;
+		if ($this->domains)
+			$params['domains'] = $this->domains;
+		if ($this->routing)
+			$params['routing'] = $this->routing;
+		if ($this->routers)
+			$params['routers'] = $this->routers;
+		if ($this->activities)
+			$params['activities'] = $this->activities;
+
+		$a = array();
+		foreach ($this->spooler->client->rest_call('spooler/'.$this->spooler->id.'/queue/mails',
+			$params, "POST") as $m) {
+			array_push($a, new Mail($this->spooler, $m['rcpt'], $m));
+		}
+		return $a;
 	}
 
 	/**

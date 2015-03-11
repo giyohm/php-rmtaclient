@@ -34,7 +34,7 @@ class Notification
 	 *
 	 * @return integer
 	 */
-	public function id()
+	public function identifier()
 	{
 		return $this->id;
 	}
@@ -45,7 +45,10 @@ class Notification
 	public function delete()
 	{
 		$params = array('ids'=>array($this->id));
-		$this->notifications->client->rest_call('domain/'.$this->notifications->domain.'/notifications/delete', $params, "POST");
+		$ret = $this->notifications->client->rest_call('domain/'.$this->notifications->domain.'/notifications/delete', $params, "POST");
+		if ($ret != 1)
+			return false;
+		return true;
 	}
 
 	public function timestamp()
@@ -63,8 +66,10 @@ class Notification
 		return $this->data['notice'];
 	}
 
-	public function payload()
+	public function payload($key = null)
 	{
+		if ($key)
+			return $this->data['payload'][$key];
 		return $this->data['payload'];
 	}
 }
