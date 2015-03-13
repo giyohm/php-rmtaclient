@@ -28,6 +28,15 @@ class Templates
 		$this->domain = $domain;
 	}
 
+	/**
+	 * Obtain a listing of registered templates
+	 *
+	 * This method returns a list of Template objects matching $type
+	 *
+	 * @params string $type mime-type for which a listing is desired
+	 *
+	 * @return Template[]
+	 */
 	public function listing($type)
 	{
 		$params = array('type' => $type);
@@ -38,24 +47,64 @@ class Templates
 		
 	}
 
+	/**
+	 * Retrieve a Template by name
+	 *
+	 * This method retrieves the Template associated to $name
+	 *
+	 * @params string $name the name of the Template to retrieve
+	 *
+	 * @return Template
+	 */
 	public function get($name)
 	{
 		$params = array('name' => $name);
 		return $this->client->rest_call('domain/'.$this->domain.'/templates/get', $params, "POST");
 	}
 
+	/**
+	 * Register a new Template
+	 *
+	 * This method registers a new Template and returns the corresponding object
+	 *
+	 * @params string $name the name of the Template
+	 * @params string $type the mime-type of the Template
+	 * @params string $content the content of the Template
+	 *
+	 * @return Template
+	 */
 	public function add($name, $type, $content)
 	{
 		$params = array('type' => $type, 'name' => $name, 'content' => $content);
 		return $this->client->rest_call('domain/'.$this->domain.'/templates/add', $params, "POST");
 	}
 
+	/**
+	 * Update an existing Template
+	 *
+	 * This method updates an existing template
+	 *
+	 * @params string $name the name of the Template
+	 * @params string $type the mime-type of the Template
+	 * @params string $content the content of the Template
+	 *
+	 * @return Template
+	 */
 	public function update($name, $type, $content)
 	{
 		$params = array('type' => $type, 'name' => $name, 'content' => $content);
 		return $this->client->rest_call('domain/'.$this->domain.'/templates/update', $params, "POST");
 	}
 
+	/**
+	 * Remove an existing template
+	 *
+	 * This method removes an existing template
+	 *
+	 * @params string $name the name of the Template
+	 *
+	 * @return boolean
+	 */
 	public function remove($name)
 	{
 		$params = array('name' => $name);
