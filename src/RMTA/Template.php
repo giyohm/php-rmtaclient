@@ -22,31 +22,34 @@ class Template
 	/**
 	 * @ignore
 	 */
-	function __construct($client, $domain, $data)
+	function __construct($client, $domain, $id, $name, $type, $content)
 	{
 		$this->client = $client;
 		$this->domain = $domain;
-		$this->data   = $data;
+
+		$this->id      = $id;
+		$this->name    = $name;
+		$this->content = $content;
 	}
 
 	function identifier()
 	{
-		return $this->data['id'];
+		return $this->id;
 	}
 	
 	function type()
 	{
-		return $this->data['type'];
+		return $this->type;
 	}
 
 	function name()
 	{
-		return $this->data['name'];
+		return $this->name;
 	}
 
-	function timestamp()
+	function content()
 	{
-		return $this->data['timestamp'];
+		return $this->content;
 	}
 }
 

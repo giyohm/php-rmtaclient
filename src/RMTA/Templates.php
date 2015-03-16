@@ -42,9 +42,8 @@ class Templates
 		$params = array('type' => $type);
 		$a = array();
 		foreach ($this->client->rest_call('domain/'.$this->domain.'/templates/list', $params, "POST") as $t)
-		    array_push($a, new Template($this->client, $this->domain, $t));
-		return $a;
-		
+		    array_push($a, new Template($this->client, $this->domain, $t['id'], $t['name'], $t['type'], null));
+		return $a;		
 	}
 
 	/**
@@ -59,7 +58,8 @@ class Templates
 	public function get($name)
 	{
 		$params = array('name' => $name);
-		return $this->client->rest_call('domain/'.$this->domain.'/templates/get', $params, "POST");
+		$data = $this->client->rest_call('domain/'.$this->domain.'/templates/get', $params, "POST");
+		return new Template($this->client, $this->domain, $data['id'], $data['name'], $data['type'], $data['content']);
 	}
 
 	/**
@@ -76,7 +76,8 @@ class Templates
 	public function add($name, $type, $content)
 	{
 		$params = array('type' => $type, 'name' => $name, 'content' => $content);
-		return $this->client->rest_call('domain/'.$this->domain.'/templates/add', $params, "POST");
+		$id = $this->client->rest_call('domain/'.$this->domain.'/templates/add', $params, "POST");
+		return new Template($this->client, $this->domain, $id, $name, $type, $content);
 	}
 
 	/**
@@ -93,7 +94,8 @@ class Templates
 	public function update($name, $type, $content)
 	{
 		$params = array('type' => $type, 'name' => $name, 'content' => $content);
-		return $this->client->rest_call('domain/'.$this->domain.'/templates/update', $params, "POST");
+		$id = $this->client->rest_call('domain/'.$this->domain.'/templates/update', $params, "POST");
+		return new Template($this->client, $this->domain, $id, $name, $type, $content);
 	}
 
 	/**
@@ -103,12 +105,11 @@ class Templates
 	 *
 	 * @params string $name the name of the Template
 	 *
-	 * @return boolean
 	 */
 	public function remove($name)
 	{
 		$params = array('name' => $name);
-		return $this->client->rest_call('domain/'.$this->domain.'/templates/remove', $params, "POST");
+		$this->client->rest_call('domain/'.$this->domain.'/templates/remove', $params, "POST");
 	}
 }
 
