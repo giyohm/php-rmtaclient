@@ -29,6 +29,7 @@ class Template
 
 		$this->id      = $id;
 		$this->name    = $name;
+		$this->type    = $type;
 		$this->content = $content;
 	}
 
