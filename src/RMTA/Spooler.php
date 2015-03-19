@@ -153,15 +153,9 @@ class Spooler
 		return new Statistics($this->client->rest_call('spooler/'.$this->id.'/statistics', $params, "POST"));
 	}
 
-	public function timeline($timeframe = "weekly")
+	public function timeline()
 	{
-		if ($timeframe != "daily" &&
-		    $timeframe != "weekly" &&
-		    $timeframe != "monthly" &&
-		    $timeframe != "yearly")
-			throw new ClientException("invalid timeframe");
-		return $this->client->rest_call('spooler/' . $this->id . '/timeline/' . $timeframe,
-		    null, "POST");
+		return $this->client->rest_call('spooler/' . $this->id . '/timeline', null, "POST");
 	}
 }
 
