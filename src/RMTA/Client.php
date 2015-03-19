@@ -92,6 +92,7 @@ class Client
 		return $this->api()->spooler_list($options);
 	}
 
+	/* XXX - DO NOT USE, TEMPORARY, WILL GO AWAY WITH CLIENT 2.0.0 */
 	function spooler_search($offset, $limit, $options = null)
 	{
 		return $this->api()->spooler_search($offset, $limit, $options);
