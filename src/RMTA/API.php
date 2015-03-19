@@ -90,7 +90,7 @@ class API
 			if (array_key_exists("end", $options) && $options["end"] != null)
 				$start = $options["end"];
 			if (array_key_exists("name", $options) && $options["name"] != null)
-				$start = $options["name"];
+				$name = $options["name"];
 		}
 
 		$params = array("offset" => $offset, "limit" => $limit);
