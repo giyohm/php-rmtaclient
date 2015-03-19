@@ -92,6 +92,11 @@ class Client
 		return $this->api()->spooler_list($options);
 	}
 
+	function spooler_search($offset, $limit, $options = null)
+	{
+		return $this->api()->spooler_search($offset, $limit, $options);
+	}
+
 	public function timeline($timeframe = "monthly")
 	{
 		if ($timeframe != "monthly")

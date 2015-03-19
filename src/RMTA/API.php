@@ -68,6 +68,41 @@ class API
 			array_push($res, new Spooler($this->client, $value['id'], $value));
 		return $res;		
 	}
+
+	function spooler_search($offset, $limit, $options = null)
+	{
+		$domains = null;
+		$types   = null;
+		$states  = null;
+		$start   = null;
+		$end     = null;
+
+		if ($options != null) {
+			if (array_key_exists("domain", $options) && $options['domain'] != null)
+				$domains = is_array($options['domain']) ? $options['domain'] : array($options['domain']);
+			if (array_key_exists("type", $options) && $options['type'] != null)
+				$types = is_array($options['type']) ? $options['type'] : array($options['type']);
+			if (array_key_exists("state", $options) && $options['state'] != null)
+				$states = is_array($options['state']) ? $options['state'] : array($options['state']);
+		}
+
+		$params = array("offset" => $offset, "limit" => $limit);
+		if ($domains != null)
+			$params["domains"] = $domains;
+		if ($types != null)
+			$params["types"] = $types;
+		if ($states != null)
+			$params["states"] = $states;
+		if ($start != null)
+			$params["start"] = $start;
+		if ($end != null)
+			$params["end"] = $end;
+
+		$res = array();
+		foreach ($this->client->rest_call('spooler-search', $params, "POST") as $value)
+			array_push($res, new Spooler($this->client, $value['id'], $value));
+		return $res;
+	}
 }
 
 ?>
