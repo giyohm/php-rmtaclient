@@ -76,6 +76,7 @@ class API
 		$states  = null;
 		$start   = null;
 		$end     = null;
+		$name    = null;
 
 		if ($options != null) {
 			if (array_key_exists("domain", $options) && $options['domain'] != null)
@@ -84,6 +85,12 @@ class API
 				$types = is_array($options['type']) ? $options['type'] : array($options['type']);
 			if (array_key_exists("state", $options) && $options['state'] != null)
 				$states = is_array($options['state']) ? $options['state'] : array($options['state']);
+			if (array_key_exists("start", $options) && $options["start"] != null)
+				$start = $options["start"];
+			if (array_key_exists("end", $options) && $options["end"] != null)
+				$start = $options["end"];
+			if (array_key_exists("name", $options) && $options["name"] != null)
+				$start = $options["name"];
 		}
 
 		$params = array("offset" => $offset, "limit" => $limit);
@@ -97,6 +104,8 @@ class API
 			$params["start"] = $start;
 		if ($end != null)
 			$params["end"] = $end;
+		if ($name != null)
+			$params["name"] = $name;
 
 		$res = array();
 		foreach ($this->client->rest_call('spooler-search', $params, "POST") as $value)
