@@ -25,7 +25,7 @@ class SpoolerFilter
 	function __construct($client, $options = null)
 	{
 		$this->client  = $client;
-		$this->iter_offset = 0;
+		$this->iter_offset = -1;
 
 		$this->domains = null;
 		$this->types   = null;
@@ -58,11 +58,13 @@ class SpoolerFilter
 	 *
 	 * @return Spooler[]
 	 */
-	public function get($offset = 0, $count = 10)
+	public function get($offset = 0, $count = 10, $reverse = null)
 	{
 		$params = array();
 		$params['offset'] = $offset;
 		$params['limit']  = $count;
+		if ($reverse != null)
+			$params['reverse'] = "yes";
 		if ($this->domains)
 			$params['domains'] = $this->domains;
 		if ($this->states)
@@ -89,7 +91,7 @@ class SpoolerFilter
 	 */
 	public function iter_reset()
 	{
-		$this->iter_offset = 0;
+		$this->iter_offset = -1;
 	}
 
 	/**
@@ -104,6 +106,17 @@ class SpoolerFilter
 		$a = $this->get($this->iter_offset, $count);
 		foreach($a as $spooler)
 			$this->iter_offset = max($this->iter_offset, $spooler->identifier() + 1);
+		return $a;
+	}
+
+	public function iter_next_rev($count = 10)
+	{
+		$a = $this->get($this->iter_offset, $count, true);
+		foreach($a as $spooler) {
+			if ($this->iter_offset == -1)
+				$this->iter_offset = $spooler->identifier();
+			$this->iter_offset = min($this->iter_offset, $spooler->identifier());
+		}
 		return $a;
 	}
 }
