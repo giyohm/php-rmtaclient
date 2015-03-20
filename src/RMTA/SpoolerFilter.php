@@ -53,12 +53,12 @@ class SpoolerFilter
 	/**
 	 * Retrieve a list of $count Spoolers instances starting at offset $offset
 	 *
-	 * @param integer $offset (optional) offset of first Spooler to retrieve
+	 * @param integer $offset (optional) offset of the first Spooler to retrieve
 	 * @param integer $count (optional) number of Spooler instances to retrieve
 	 *
 	 * @return Spooler[]
 	 */
-	public function get($offset = 0, $count = 10, $reverse = null)
+	public function get($offset = -1, $count = 10, $reverse = null)
 	{
 		$params = array();
 		$params['offset'] = $offset;
@@ -105,7 +105,10 @@ class SpoolerFilter
 	{
 		$a = $this->get($this->iter_offset, $count);
 		foreach($a as $spooler)
-			$this->iter_offset = max($this->iter_offset, $spooler->identifier() + 1);
+			if ($this->iter_offset == -1)
+				$this->iter_offset = $spooler->identifier();
+			else
+				$this->iter_offset = max($this->iter_offset, $spooler->identifier());
 		return $a;
 	}
 
@@ -115,7 +118,8 @@ class SpoolerFilter
 		foreach($a as $spooler) {
 			if ($this->iter_offset == -1)
 				$this->iter_offset = $spooler->identifier();
-			$this->iter_offset = min($this->iter_offset, $spooler->identifier());
+			else
+				$this->iter_offset = min($this->iter_offset, $spooler->identifier());
 		}
 		return $a;
 	}
