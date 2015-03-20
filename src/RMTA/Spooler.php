@@ -162,18 +162,18 @@ class Spooler
 	}
 
 	/**
-	 * Obtain a QueueIterator instance allowing the inspection of the queue associated to a Spooler.
+	 * Obtain a QueueFilter instance allowing the inspection of the queue associated to a Spooler.
 	 *
 	 * Each spooler has a queue of Mail objects that are meant to be sent to their destination.
 	 * This method returns an iterator for (a subset of) the queue.
 	 *
 	 * @param array $options (optional) options that individual Mail objects should match to be returned
 	 *
-	 * @return QueueIterator
+	 * @return QueueFilter
 	 */
 	public function queue($options = null)
 	{
-		return new QueueIterator($this, $options);
+		return new QueueFilter($this, $options);
 	}
 
 	/**

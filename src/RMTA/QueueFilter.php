@@ -17,7 +17,7 @@
 
 namespace RMTA;
 
-class QueueIterator
+class QueueFilter
 {
 	/**
 	 * @ignore
@@ -25,6 +25,8 @@ class QueueIterator
 	function __construct($spooler, $options)
 	{
 		$this->spooler = $spooler;
+
+		$this->iter_offset = 0;
 
 		$this->domains	  = null;
 		$this->routing	  = null;
@@ -44,7 +46,7 @@ class QueueIterator
 	}
 
 	/**
-	 * Retrieve the number of messages in this QueueIterator instance
+	 * Retrieve the number of messages in this QueueFilter instance
 	 *
 	 * @return integer
 	 */
@@ -105,6 +107,31 @@ class QueueIterator
 		$url = 'spooler/'.$this->spooler->id.'/queue/lookup/'.$type;
 		$params = array("term" => $term);
 		return $this->spooler->client->rest_call($url, $params, "POST");
+	}
+
+	/**
+	 * Reset the iterator
+	 *
+	 * @return null
+	 */
+	public function iter_reset()
+	{
+		$this->iter_offset = 0;
+	}
+
+	/**
+	 * Retrieve the next list of at most $count Mail instances from this iterator
+	 *
+	 * @param integer $count (optional) number of Mail instances to retrieve
+	 *
+	 * @return Mail[]
+	 */
+	public function iter_next($count = 100)
+	{
+		$a = $this->mails($this->iter_offset, $count);
+		foreach($a as $mail)
+			$this->iter_offset = max($this->iter_offset, $mail->identifier() + 1);
+		return $a;
 	}
 }
 
