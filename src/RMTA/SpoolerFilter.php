@@ -25,6 +25,7 @@ class SpoolerFilter
 	function __construct($client, $options = null)
 	{
 		$this->client  = $client;
+		$this->iter_offset = 0;
 
 		$this->domains = null;
 		$this->types   = null;
@@ -79,6 +80,31 @@ class SpoolerFilter
 		foreach ($this->client->rest_call('spooler-list', $params, "POST") as $value)
 			array_push($res, new Spooler($this->client, $value['id'], $value));
 		return $res;
+	}
+
+	/**
+	 * Reset the iterator
+	 *
+	 * @return null
+	 */
+	public function iter_reset()
+	{
+		$this->iter_offset = 0;
+	}
+
+	/**
+	 * Retrieve the next list of at most $count Spoolers instances from this iterator
+	 *
+	 * @param integer $count (optional) number of Spooler instances to retrieve
+	 *
+	 * @return Spooler[]
+	 */
+	public function iter_next($count = 10)
+	{
+		$a = $this->get($this->iter_offset, $count);
+		foreach($a as $spooler)
+			$this->iter_offset = max($this->iter_offset, $spooler->identifier() + 1);
+		return $a;
 	}
 }
 
