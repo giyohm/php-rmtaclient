@@ -128,38 +128,31 @@ class Client
 	}
 
 	/**
+	 * Obtain a SpoolerFilter instance allowing the retreive spoolers matching certain conditions
+	 *
+	 * @param array $options a list of options that a spooler should match
+	 *
+	 * @return SpoolerFilter[]
+	 */
+	function spoolers($options = null)
+	{
+		return new SpoolerFilter($this, $options);
+	}
+
+	/**
 	 * Return a list of Spooler connectors belonging to the client and respecting $options 
 	 *
 	 * @param array $options a list of options that a spooler should match to be returned by this call
+	 * @param integer $offset (optional) offset of first Spooler to retrieve
+	 * @param integer $count (optional) number of Spooler instances to retrieve
 	 *
 	 * @return Spooler[]
 	 */
-	function spooler_list($options = null)
+	function spooler_list($options = null, $offset = 0, $limit = 20)
 	{
-		$domains = null;
-		$types	 = null;
-		$states	 = null;
-		if ($options != null) {
-			if (array_key_exists("domains", $options) && $options['domains'] != null)
-				$domains = is_array($options['domains']) ? $options['domains'] : array($options['domains']);
-			if (array_key_exists("types", $options) && $options['types'] != null)
-				$types = is_array($options['types']) ? $options['types'] : array($options['types']);
-			if (array_key_exists("states", $options) && $options['states'] != null)
-				$states = is_array($options['states']) ? $options['states'] : array($options['states']);
-		}
-
-		$params = array();
-		if ($domains != null)
-			$params['domains'] = $domains;
-		if ($types != null)
-			$params['types'] = $types;
-		if ($states != null)
-			$params['states'] = $states;
-
-		$res = array();
-		foreach ($this->rest_call('spooler-list', $params, "POST") as $value)
-			array_push($res, new Spooler($this, $value['id'], $value));
-		return $res;		
+		$spoolers = $this->spoolers($options);
+		$res = $spoolers->get($offset, $limit);
+		return $res;
 	}
 
 	/**
