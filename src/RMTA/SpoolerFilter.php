@@ -44,7 +44,7 @@ class SpoolerFilter
 			if (array_key_exists("start", $options) && $options["start"] != null)
 				$this->start = $options["start"];
 			if (array_key_exists("end", $options) && $options["end"] != null)
-				$this->start = $options["end"];
+				$this->end = $options["end"];
 			if (array_key_exists("name", $options) && $options["name"] != null)
 				$this->name = $options["name"];
 		}
