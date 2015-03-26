@@ -89,7 +89,10 @@ class QueueFilter
 		$a = array();
 		foreach ($this->spooler->client->rest_call('spooler/'.$this->spooler->id.'/queue/mails',
 			$params, "POST") as $m) {
-			array_push($a, new Mail($this->spooler, $m['rcpt'], $m));
+			$mail = new Mail($this->spooler, $m['rcpt'], $m);
+			$mail->delivery = new MailDelivery($m);
+			$mail->activity = new MailActivity($m);
+			array_push($a, $mail);
 		}
 		return $a;
 	}
