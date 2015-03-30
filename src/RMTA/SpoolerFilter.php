@@ -51,6 +51,30 @@ class SpoolerFilter
 	}
 
 	/**
+	 * Get the number of spoolers matching this filter
+	 *
+	 * @return integer
+	 */
+	public function count()
+	{
+		$params = array();
+		if ($this->domains)
+			$params['domains'] = $this->domains;
+		if ($this->states)
+			$params['states'] = $this->states;
+		if ($this->types)
+			$params['types'] = $this->types;
+		if ($this->name)
+			$params['name'] = $this->name;
+		if ($this->start)
+			$params['start'] = $this->start;
+		if ($this->end)
+			$params['end'] = $this->end;
+
+		return $this->client->rest_call('spooler-count', $params, "POST");
+	}
+
+	/**
 	 * Retrieve a list of $count Spoolers instances starting at offset $offset
 	 *
 	 * @param integer $offset (optional) offset of the first Spooler to retrieve
