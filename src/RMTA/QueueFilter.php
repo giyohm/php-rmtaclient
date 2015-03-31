@@ -133,7 +133,7 @@ class QueueFilter
 	{
 		$a = $this->mails($this->iter_offset, $count);
 		foreach($a as $mail)
-			$this->iter_offset = max($this->iter_offset, $mail->identifier() + 1);
+			$this->iter_offset = max($this->iter_offset, $mail->info['id']);
 		return $a;
 	}
 }
