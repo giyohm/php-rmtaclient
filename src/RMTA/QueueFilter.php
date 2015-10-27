@@ -32,6 +32,7 @@ class QueueFilter
 		$this->routing	  = null;
 		$this->routers	  = null;
 		$this->activities = null;
+		$this->rcpt_matches = null;
 
 		if ($options != null) {
 			if (array_key_exists("domains", $options))
@@ -42,6 +43,8 @@ class QueueFilter
 				$this->routers = is_array($options['routers']) ? $options['routers'] : array($options['routers']);
 			if (array_key_exists("activities", $options) && $options['activities'] != null)
 				$this->activities = is_array($options['activities']) ? $options['activities'] : array($options['activities']);
+			if (array_key_exists("rcpt-matches", $options) && $options['rcpt-matches'] != null)
+				$this->rcpt_matches = is_array($options['rcpt-matches']) ? $options['rcpt-matches'] : array($options['rcpt-matches']);
 		}
 	}
 
@@ -61,6 +64,8 @@ class QueueFilter
 			$params['routers'] = $this->routers;
 		if ($this->activities)
 			$params['activities'] = $this->activities;
+		if ($this->rcpt_matches)
+			$params['rcpt-matches'] = $this->rcpt_matches;
 		return $this->spooler->client->rest_call('spooler/'.$this->spooler->id.'/queue/size', $params, "POST");
 	}
 
@@ -85,6 +90,8 @@ class QueueFilter
 			$params['routers'] = $this->routers;
 		if ($this->activities)
 			$params['activities'] = $this->activities;
+		if ($this->rcpt_matches)
+			$params['rcpt-matches'] = $this->rcpt_matches;
 
 		$a = array();
 		foreach ($this->spooler->client->rest_call('spooler/'.$this->spooler->id.'/queue/mails',

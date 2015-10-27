@@ -30,7 +30,8 @@ class SpoolerFilter
 		$this->domains = null;
 		$this->types   = null;
 		$this->states  = null;
-		$this->start   = null;
+		$this->start_after = null;
+		$this->start_before = null;
 		$this->end     = null;
 		$this->name    = null;
 
@@ -41,8 +42,10 @@ class SpoolerFilter
 				$this->types = is_array($options['type']) ? $options['type'] : array($options['type']);
 			if (array_key_exists("state", $options) && $options['state'] != null)
 				$this->states = is_array($options['state']) ? $options['state'] : array($options['state']);
-			if (array_key_exists("start", $options) && $options["start"] != null)
-				$this->start = $options["start"];
+			if (array_key_exists("start-after", $options) && $options["start-after"] != null)
+				$this->start_after = $options["start-after"];
+			if (array_key_exists("start-before", $options) && $options["start-before"] != null)
+				$this->start_before = $options["start-before"];
 			if (array_key_exists("end", $options) && $options["end"] != null)
 				$this->end = $options["end"];
 			if (array_key_exists("name", $options) && $options["name"] != null)
@@ -66,8 +69,10 @@ class SpoolerFilter
 			$params['types'] = $this->types;
 		if ($this->name)
 			$params['name'] = $this->name;
-		if ($this->start)
-			$params['start'] = $this->start;
+		if ($this->start_after)
+			$params['start-after'] = $this->start_after;
+		if ($this->start_before)
+			$params['start-before'] = $this->start_before;
 		if ($this->end)
 			$params['end'] = $this->end;
 
@@ -97,8 +102,10 @@ class SpoolerFilter
 			$params['types'] = $this->types;
 		if ($this->name)
 			$params['name'] = $this->name;
-		if ($this->start)
-			$params['start'] = $this->start;
+		if ($this->start_after)
+			$params['start-after'] = $this->start_after;
+		if ($this->start_before)
+			$params['start-before'] = $this->start_before;
 		if ($this->end)
 			$params['end'] = $this->end;
 
