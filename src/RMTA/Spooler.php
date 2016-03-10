@@ -23,6 +23,7 @@ class Spooler
 	{
 		$this->client = $client;
 		$this->id         = $spooler_id;
+		$this->_token     = null;
 		$this->domain     = null;
 		$this->type       = null;
 		$this->state      = null;
@@ -38,6 +39,7 @@ class Spooler
 		$this->type       = $data['type'];
 		$this->state      = $data['state'];
 		$this->summary    = $data['summary'];
+		$this->_token     = $data['token'];
 
 		$this->params['name'] = $data['name'];
 		$this->params['start'] = $data['start'];
@@ -52,6 +54,22 @@ class Spooler
 		return $this->id;
 	}
 
+	function token()
+	{
+		return $this->_token;
+	}
+
+	/**
+	 * Get or Set the name for this Spooler instance.
+	 *
+	 * Each spooler may be given a name for users to identify it in a more friendly manner.
+	 * When called without parameter, the method returns the current label.
+	 * When called with a parameter, the method will request that this parameter be the new label.
+	 *
+	 * @param string $value name to assign to the spooler
+	 *
+	 * @return string|void spooler name if get, nothing if set
+	 */
 	function name($value = null)
 	{
 		if ($value === null) {
