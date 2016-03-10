@@ -26,6 +26,7 @@ class Spooler
 	{
 		$this->client = $client;
 		$this->id         = $spooler_id;
+		$this->_token     = null;
 		$this->domain     = null;
 		$this->type       = null;
 		$this->state      = null;
@@ -44,6 +45,7 @@ class Spooler
 		$this->type       = $data['type'];
 		$this->state      = $data['state'];
 		$this->summary    = $data['summary'];
+		$this->_token     = $data['token'];
 
 		$this->params['name'] = $data['name'];
 		$this->params['start'] = $data['start'];
@@ -63,6 +65,11 @@ class Spooler
 	function identifier()
 	{
 		return $this->id;
+	}
+
+	function token()
+	{
+		return $this->_token;
 	}
 
 	/**
